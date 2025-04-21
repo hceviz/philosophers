@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hceviz <hceviz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:55:49 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/16 18:49:48 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:54:44 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void	free_exit(t_prog *prog, int code)
 {
 	int	i;
 
-	/* if (prog->philos && prog->nop > 1)
+	if (prog->philos && prog->nop > 1)
 	{
 		i = -1;
 		while (++i < prog->nop)
 			pthread_join(prog->philos[i].t_id, NULL);
-	}  */
+	}
+	
 	if (prog->forks)
 	{
 		i = -1;
@@ -43,6 +44,7 @@ void	free_exit(t_prog *prog, int code)
 		//prog->philos = NULL;
 	}
 	pthread_mutex_destroy(&prog->write_lock);
+	pthread_mutex_destroy(&prog->dead_lock);
 	exit(code);
 }
 
@@ -75,4 +77,5 @@ int	main(int ac, char **av)
 	init_philo(&prog);
 	dinner_start(&prog);
 	free_exit(&prog, 0);
+	return (0);
 }

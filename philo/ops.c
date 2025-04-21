@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:43:27 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/17 12:31:25 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:52:36 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	eat(t_philo *philo)
 	precise_sleep(philo->prog, philo->prog->time_to_eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
-	printf("Philo %d meal count -> %d\n", philo->id, philo->meal_count);
+	//printf("Philo %d meal count -> %d\n", philo->id, philo->meal_count);
 }
 
 void	philosleep(t_philo *philo)
@@ -60,15 +60,18 @@ void	philosleep(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	long	thinktime;
+	//DOUBLE CHECK THIS FUNCTION
 
-	thinktime = philo->prog->time_to_die
-		- (philo->prog->time_to_eat + philo->prog->time_to_sleep);
-	if (thinktime <= 0)
-		return ;
+	
+	//long	thinktime;
+
+	//thinktime = philo->prog->time_to_die
+	//	- (philo->prog->time_to_eat + philo->prog->time_to_sleep);
+	/* if (thinktime <= 0)
+		return ; */
 	write_status(gettime() - philo->prog->start_time, philo->id, 't',
 		philo->prog);
-	precise_sleep(philo->prog, thinktime);
+	precise_sleep(philo->prog, 10);
 }
 
 void	onephilo(t_philo *philo)
@@ -77,7 +80,7 @@ void	onephilo(t_philo *philo)
 		philo->prog);
 	write_status(gettime() - philo->prog->start_time, philo->id, 'f',
 		philo->prog);
-	precise_sleep(philo->prog, philo->prog->time_to_die);
+	precise_sleep(philo->prog, philo->prog->time_to_die + 1);
 	write_status(gettime() - philo->prog->start_time, philo->id, 'd',
 		philo->prog);
 	free_exit(philo->prog, 0);

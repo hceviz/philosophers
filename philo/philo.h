@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:15:38 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/17 11:32:43 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/21 15:05:09 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <string.h>
 
 # define P_MAX 200
 
@@ -35,6 +36,7 @@ typedef struct s_prog
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			start_time;
+	pthread_t		monitor_thread;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	*forks;

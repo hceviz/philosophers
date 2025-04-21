@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:12:01 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/17 12:09:58 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/21 12:39:15 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,10 @@ void	precise_sleep(t_prog *prog, long ms)
 	long	begin;
 
 	begin = gettime();
-	while ((gettime() - begin < ms) && !someone_dead(prog))
+	while (gettime() - begin < ms)
+	{
+		if (someone_dead(prog))
+			break;
 		usleep(100);
+	}
 }
-
-
-/* 
-bool	is_finish(t_philo *philo)
-{
-	bool	res;
-
-	pthread_mutex_lock(&philo->meal_lock);
-	if ((gettime() - philo->lastmeal_time) > philo->prog->time_to_die)
-		res = true;
-	else
-		res = false;
-	pthread_mutex_unlock(&philo->meal_lock)
-} */
