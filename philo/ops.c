@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:43:27 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/23 12:12:39 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 14:19:35 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	lock_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	lock_forks(philo);
-	write_status(gettime() - philo->prog->start_time, philo->id, 'f',
+	write_stat(gettime() - philo->prog->s_time, philo->id, 'f',
 		philo->prog);
-	write_status(gettime() - philo->prog->start_time, philo->id, 'f',
+	write_stat(gettime() - philo->prog->s_time, philo->id, 'f',
 		philo->prog);
 	pthread_mutex_lock(&philo->meal_lock);
 	philo->lastmeal_time = gettime();
@@ -43,7 +43,7 @@ void	eat(t_philo *philo)
 		philo->finished = 1;
 	}
 	pthread_mutex_unlock(&philo->meal_lock);
-	write_status(gettime() - philo->prog->start_time, philo->id, 'e',
+	write_stat(gettime() - philo->prog->s_time, philo->id, 'e',
 		philo->prog);
 	precise_sleep(philo->prog, philo->prog->time_to_eat);
 	pthread_mutex_unlock(philo->r_fork);
@@ -52,26 +52,29 @@ void	eat(t_philo *philo)
 
 void	philosleep(t_philo *philo)
 {
-	write_status(gettime() - philo->prog->start_time, philo->id, 's',
+	write_stat(gettime() - philo->prog->s_time, philo->id, 's',
 		philo->prog);
 	precise_sleep(philo->prog, philo->prog->time_to_sleep);
 }
 
 void	think(t_philo *philo)
 {
-	write_status(gettime() - philo->prog->start_time, philo->id, 't',
+	long	think;
+
+	think = philo->prog->time_to_die
+		- (philo->prog->time_to_eat + philo->prog->time_to_sleep);
+	write_stat(gettime() - philo->prog->s_time, philo->id, 't',
 		philo->prog);
-	precise_sleep(philo->prog, 10);
+	if (think > 1)
+		precise_sleep(philo->prog, think);
 }
 
 void	onephilo(t_philo *philo)
 {
-	write_status(gettime() - philo->prog->start_time, philo->id, 'f',
+	write_stat(gettime() - philo->prog->s_time, philo->id, 'f',
 		philo->prog);
-	write_status(gettime() - philo->prog->start_time, philo->id, 'f',
-		philo->prog);
-	precise_sleep(philo->prog, philo->prog->time_to_die + 1);
-	write_status(gettime() - philo->prog->start_time, philo->id, 'd',
+	precise_sleep(philo->prog, philo->prog->time_to_die);
+	write_stat(gettime() - philo->prog->s_time, philo->id, 'd',
 		philo->prog);
 	free_exit(philo->prog, 0);
 }

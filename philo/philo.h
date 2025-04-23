@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:15:38 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/23 12:01:20 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 14:19:17 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_prog
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			start_time;
+	size_t			s_time;
 	pthread_t		monitor_thread;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
@@ -73,7 +73,7 @@ void	init_forks(t_prog *prog);
 void	init_philo(t_prog *prog);
 
 //dinner.c
-void	write_status(long time, int philo_id, char op, t_prog *prog);
+void	write_stat(long time, int philo_id, char op, t_prog *prog);
 void	dinner_start(t_prog *prog);
 
 //ops.c

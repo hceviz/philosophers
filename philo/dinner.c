@@ -6,41 +6,42 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 11:37:04 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/23 11:59:30 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 14:21:08 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*monitor(t_prog *prog)
+void	*monitor(void *data)
 {
-	int	i;
+	t_prog	*p;
+	int		i;
 
-	while (!someone_dead(prog))
+	p = (t_prog *)data;
+	while (!someone_dead(p))
 	{
 		i = -1;
-		while (++i < prog->nop)
+		while (++i < p->nop)
 		{
-			pthread_mutex_lock(&prog->philos[i].meal_lock);
-			if ((gettime() - prog->philos[i].lastmeal_time) > prog->time_to_die)
+			pthread_mutex_lock(&p->philos[i].meal_lock);
+			if (gettime() - p->philos[i].lastmeal_time > p->time_to_die)
 			{
-				pthread_mutex_unlock(&prog->philos[i].meal_lock);
-				write_status((gettime() - prog->start_time), prog->philos[i].id,
-					'd', prog);
-				pthread_mutex_lock(&prog->dead_lock);
-				prog->someone_dead = true;
-				pthread_mutex_unlock(&prog->dead_lock);
+				pthread_mutex_unlock(&p->philos[i].meal_lock);
+				write_stat((gettime() - p->s_time), p->philos[i].id, 'd', p);
+				pthread_mutex_lock(&p->dead_lock);
+				p->someone_dead = true;
+				pthread_mutex_unlock(&p->dead_lock);
 				break ;
 			}
-			pthread_mutex_unlock(&prog->philos[i].meal_lock);
-			if (prog->finished_count >= prog->nop)
-				free_exit(prog, 0);
+			pthread_mutex_unlock(&p->philos[i].meal_lock);
+			if (p->finished_count >= p->nop)
+				free_exit(p, 0);
 		}
 	}
 	return (NULL);
 }
 
-void	write_status(long time, int philo_id, char op, t_prog *prog)
+void	write_stat(long time, int philo_id, char op, t_prog *prog)
 {
 	char	*msg;
 
@@ -68,7 +69,7 @@ void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	if (philo->id % 2)
-		usleep(100);
+		usleep(50);
 	while (1)
 	{
 		if (someone_dead(philo->prog))
@@ -91,12 +92,12 @@ void	dinner_start(t_prog *prog)
 {
 	int			i;
 
-	prog->start_time = gettime();
+	prog->s_time = gettime();
 	if (prog->nop == 1)
 		onephilo(&prog->philos[0]);
 	i = -1;
 	while (++i < prog->nop)
-		prog->philos[i].lastmeal_time = prog->start_time;
+		prog->philos[i].lastmeal_time = prog->s_time;
 	i = -1;
 	while (++i < prog->nop)
 	{
@@ -104,6 +105,8 @@ void	dinner_start(t_prog *prog)
 				routine, &prog->philos[i]) != 0)
 			break ;
 	}
-	monitor(prog);
+	if (pthread_create(&prog->monitor_thread, NULL, monitor,
+			prog) != 0)
+		return ;
 	return ;
 }

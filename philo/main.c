@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:55:49 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/23 12:01:10 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 14:12:44 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void	free_exit(t_prog *prog, int code)
 {
 	int	i;
 
+	pthread_join(prog->monitor_thread, NULL);
+	i = -1;
 	if (prog->philos && prog->nop > 1)
-	{
-		i = -1;
 		while (++i < prog->nop)
 			pthread_join(prog->philos[i].t_id, NULL);
-	}
 	if (prog->forks)
 	{
 		i = -1;
