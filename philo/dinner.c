@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 11:37:04 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 15:10:15 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 11:59:30 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*monitor(t_prog *prog)
 				pthread_mutex_lock(&prog->dead_lock);
 				prog->someone_dead = true;
 				pthread_mutex_unlock(&prog->dead_lock);
-				break;
+				break ;
 			}
 			pthread_mutex_unlock(&prog->philos[i].meal_lock);
 			if (prog->finished_count >= prog->nop)
@@ -55,7 +55,7 @@ void	write_status(long time, int philo_id, char op, t_prog *prog)
 		msg = "is thinking";
 	else if (op == 'd')
 		msg = "died";
-	if (someone_dead(prog) && op != 'd') //modified
+	if (someone_dead(prog) && op != 'd')
 		return ;
 	pthread_mutex_lock(&prog->write_lock);
 	printf("%ld %d %s\n", time, philo_id, msg);
@@ -71,13 +71,13 @@ void	*routine(void *data)
 		usleep(100);
 	while (1)
 	{
-		if (someone_dead(philo->prog)) //new
-			break;
+		if (someone_dead(philo->prog))
+			break ;
 		pthread_mutex_lock(&philo->meal_lock);
 		if (philo->prog->meal_num > 0 && philo->finished)
 		{
 			pthread_mutex_unlock(&philo->meal_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&philo->meal_lock);
 		eat(philo);
@@ -93,7 +93,7 @@ void	dinner_start(t_prog *prog)
 
 	prog->start_time = gettime();
 	if (prog->nop == 1)
-		onephilo(&prog->philos[0]); 
+		onephilo(&prog->philos[0]);
 	i = -1;
 	while (++i < prog->nop)
 		prog->philos[i].lastmeal_time = prog->start_time;
@@ -102,17 +102,8 @@ void	dinner_start(t_prog *prog)
 	{
 		if (pthread_create(&prog->philos[i].t_id, NULL,
 				routine, &prog->philos[i]) != 0)
-			break;
+			break ;
 	}
-	//usleep(20);
 	monitor(prog);
-	/* pthread_join(prog->monitor_thread, NULL);
-	i = -1;
-	while (++i < prog->nop)
-	{
-		if (pthread_join(prog->philos[i].t_id, NULL) != 0)
-			free_exit(prog, 1);
-	} */
 	return ;
-	
 }

@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:43:27 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 14:52:36 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:12:39 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	eat(t_philo *philo)
 	precise_sleep(philo->prog, philo->prog->time_to_eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
-	//printf("Philo %d meal count -> %d\n", philo->id, philo->meal_count);
 }
 
 void	philosleep(t_philo *philo)
@@ -60,15 +59,6 @@ void	philosleep(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	//DOUBLE CHECK THIS FUNCTION
-
-	
-	//long	thinktime;
-
-	//thinktime = philo->prog->time_to_die
-	//	- (philo->prog->time_to_eat + philo->prog->time_to_sleep);
-	/* if (thinktime <= 0)
-		return ; */
 	write_status(gettime() - philo->prog->start_time, philo->id, 't',
 		philo->prog);
 	precise_sleep(philo->prog, 10);

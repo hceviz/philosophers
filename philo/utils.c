@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:12:01 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 12:39:15 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:01:55 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,10 @@ int	is_notdigit(char *av)
 	return (0);
 }
 
-long	gettime(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		ft_exit("gettimeofday error");
-	return ((long)((tv.tv_sec) * 1000) + (tv.tv_usec / 1000));
-}
-
 bool	someone_dead(t_prog *prog)
 {
 	bool	res;
+
 	pthread_mutex_lock(&prog->dead_lock);
 	res = prog->someone_dead;
 	pthread_mutex_unlock(&prog->dead_lock);
@@ -86,7 +78,7 @@ void	precise_sleep(t_prog *prog, long ms)
 	while (gettime() - begin < ms)
 	{
 		if (someone_dead(prog))
-			break;
+			break ;
 		usleep(100);
 	}
 }

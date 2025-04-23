@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:15:38 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 15:05:09 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:01:20 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int		ft_atoi(char *c);
 void	ft_exit(char *msg);
 int		is_notdigit(char *av);
 void	precise_sleep(t_prog *prog, long ms);
-long	gettime(void);
 bool	someone_dead(t_prog *prog);
 
 //main.c
 void	free_exit(t_prog *prog, int code);
+long	gettime(void);
 
 //init.c
 void	init_program(t_prog *prog, char **av);

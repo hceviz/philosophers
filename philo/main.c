@@ -6,15 +6,20 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 08:55:49 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 14:54:44 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:01:10 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//MALLOC'd
-//1.)prog->philos
-//2.)prog->forks
+long	gettime(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		ft_exit("gettimeofday error");
+	return ((long)((tv.tv_sec) * 1000) + (tv.tv_usec / 1000));
+}
 
 void	free_exit(t_prog *prog, int code)
 {
@@ -26,14 +31,12 @@ void	free_exit(t_prog *prog, int code)
 		while (++i < prog->nop)
 			pthread_join(prog->philos[i].t_id, NULL);
 	}
-	
 	if (prog->forks)
 	{
 		i = -1;
 		while (++i < prog->nop)
 			pthread_mutex_destroy(&prog->forks[i]);
 		free(prog->forks);
-		//prog->forks = NULL;
 	}
 	if (prog->philos)
 	{
@@ -41,7 +44,6 @@ void	free_exit(t_prog *prog, int code)
 		while (++i < prog->nop)
 			pthread_mutex_destroy(&prog->philos[i].meal_lock);
 		free(prog->philos);
-		//prog->philos = NULL;
 	}
 	pthread_mutex_destroy(&prog->write_lock);
 	pthread_mutex_destroy(&prog->dead_lock);
@@ -63,7 +65,6 @@ int	check_args(char **av)
 	return (0);
 }
 
-/*Check valgrind*/
 int	main(int ac, char **av)
 {
 	t_prog	prog;

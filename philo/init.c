@@ -6,7 +6,7 @@
 /*   By: hceviz <hceviz@student.42warsaw.pl>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:48:57 by hceviz            #+#    #+#             */
-/*   Updated: 2025/04/21 15:12:53 by hceviz           ###   ########.fr       */
+/*   Updated: 2025/04/23 11:59:45 by hceviz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ void	init_program(t_prog *prog, char **av)
 	prog->someone_dead = false;
 	pthread_mutex_init(&prog->write_lock, NULL);
 	pthread_mutex_init(&prog->dead_lock, NULL);
-	/* prog->forks = NULL;
-	prog->philos = NULL;
-	prog->start_time = 0;
-	prog->monitor_thread = 0; */
 }
 
 void	init_forks(t_prog *prog)
