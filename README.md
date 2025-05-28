@@ -36,7 +36,7 @@ Simulates 5 philosophers who die if they don’t eat in 800ms, eat in 200ms, and
 Each philosopher’s action is logged to the console in the following format:
 
 	[timestamp] [philosopher_id] action
-Example:
+Example Output:
 
 	0 2 has taken a fork
 	0 2 has taken a fork
