@@ -38,5 +38,19 @@ Each philosopher’s action is logged to the console in the following format:
 	[timestamp] [philosopher_id] action
 Example:
 
-	420 2 is eating
-	421 3 has taken a fork
+	0 2 has taken a fork
+	0 2 has taken a fork
+	0 2 is eating
+	0 4 has taken a fork
+	0 4 has taken a fork
+	0 4 is eating
+	150 4 is sleeping
+	150 3 has taken a fork
+	150 3 has taken a fork
+	150 1 has taken a fork
+	150 1 has taken a fork
+	150 1 is eating
+	150 2 is sleeping
+	150 3 is eating
+	201 2 died
+
